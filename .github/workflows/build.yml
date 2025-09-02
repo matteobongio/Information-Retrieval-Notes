@@ -18,6 +18,6 @@ jobs:
       # go to settings, action, set to read/write
       - uses: svenstaro/upload-release-action@v2
         with:
-          release_name: "Calculus 2 - Matteo's Notes"
+          release_name: "Information Retrieval - Matteo's Notes"
           file: main.pdf
           overwrite: true
