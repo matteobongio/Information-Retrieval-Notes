@@ -108,3 +108,33 @@ external sorting algorithms because seek time on disks are too slow
   - secound most frequent term occurs $c_(f 1/2)$ times
 ])
 
+== Lecture 3
+
+#pinkbox("Reference Collections", [
+  Labelled dataset required to evaluate an IR system
+])
+
+#yellowbox("Retrieval Metrics", [
+  - *Precision and recall*
+    - *Precision*: fraction of retrieved documents that are relevant
+    - *Recall*: fraction of relevant documents that are retrieved
+    - *Issues*:
+      - Estimation of maximum recall is impossible, data sets are too big
+      - averaging may not show anomalies
+  - *Single Value summaries*
+    - *Average Precision at n*: average precision with the first n results
+    - *Mean Average Precision (MAP)*
+    - *R-Precision*\
+      compute precision at the Rth position in the results:\
+      R: number of relevant docs 
+    - *Mean reciprocal rank*
+    - *E-measure*: combination of precision and recall, user specified weights to each
+    - *F-measure*: harmonic mean precision and recall
+  - *User Oriented Measures*
+    - *Coverage Ratio*: fraction of documents known and relevant that are in the answer set
+    - *Novelty Ratio*: fraction of relevant documents in the answer set that are unknown to the
+      user
+  - *Discounted Cumulative Gain*
+    - Highly relevant documents should be at the top, if they aren't, that s bad
+  - *Rank Correlation Metrics*
+])
