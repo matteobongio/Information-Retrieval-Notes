@@ -138,3 +138,67 @@ external sorting algorithms because seek time on disks are too slow
     - Highly relevant documents should be at the top, if they aren't, that s bad
   - *Rank Correlation Metrics*
 ])
+
+== Lecture 4 & 5
+
+#pinkbox("Natural Language Processing", [
+  make machines understand human language
+  - Tokenization
+  - Stop Words (remove: the, a, to, of)
+  - Normalization (U.S.A. == USA)
+    - Lemmatisation
+])
+
+#pinkbox("Forward List", [
+  Inverted Index, but the indexed dictionary is by document name $->$ list of terms
+])
+
+
+#greenbox("Wildcard Queries", [
+  "\*" \
+  search trees work well for trailing wildcard. also: B-trees, reverse B-trees exist
+
+  - *k-gram indexes*: store k-length sections of words, and search against those
+  - *spelling correction*: 
+    - *edit-distance (Levenshtein Distance)*:
+      minimum number of edit operations required to transform string 1 into string 2
+        (insert, delete, replace)
+    - *k-gram overlap*
+])
+
+
+#pinkbox("Heaps' Law", [
+  number of distinct words in a distance of size $n$ = $K n^beta$, where $K$ and $beta$ are
+    empirecally determind constants
+
+  basically, number of distinct words grows exponentially with number of documents
+])
+
+
+#pinkbox("Vector Space Model", [
+  create term by document matrix:
+  - generate $m times n$ matrix where
+    - $m$: number of unique terms in documents
+    - $n$ number of documents
+  - very sparse
+  *Just and incidence matrix*
+
+  - Do vector comparision like 
+    - cosine operator
+    - Euclidian Distance
+    - Manhattan Distance
+    - Pearson correlation
+    - spearman correlation
+  using a query vector and matric columns to find the closest
+])
+
+#pinkbox("Term Frequency Model", [
+  - issues:
+    - facors long documents
+    - easy to cheat
+    - repetition does not mean terms are relevant
+
+  $
+    f_(i j) log( n / (sum_j chi(f_(i j))))
+  $
+])
