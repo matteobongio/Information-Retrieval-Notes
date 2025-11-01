@@ -287,3 +287,18 @@ external sorting algorithms because seek time on disks are too slow
   + result evaluation
 ])
 
+== Lecture 7
+
+#purplebox("Web Crawling", [
+  Crawling Cycle
+  + seeds (starting URLs)
+  + Scheduler and Queue
+  + Fetching pages
+  + Parse
+  + repeat
+])
+
+index compression:
+- gap encoding store differences between docIDs instead of full IDs
+
+== Lecture 8
