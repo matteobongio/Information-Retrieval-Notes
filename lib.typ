@@ -41,6 +41,14 @@
   generalbox(red, title, text, ..opts)
 }
 
+#let yellowbox(title, text, ..opts) = {
+  generalbox(yellow, title, text, ..opts)
+}
+
+#let greenbox(title, text, ..opts) = {
+  generalbox(green, title, text, ..opts)
+}
+
 #let DefCounters = state("defs", 0)
 
 #let Definitionbox(title, text, ..opts) = {
