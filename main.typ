@@ -202,3 +202,88 @@ external sorting algorithms because seek time on disks are too slow
     f_(i j) log( n / (sum_j chi(f_(i j))))
   $
 ])
+
+== Lecture 6
+
+#greenbox( "Term Frequency", [
+  Frequent terms in a document are more important
+  - Raw count: $t f(t, d) = f_(t,d)$
+  - Normalized: $t f(t, d) = f_(t,d)/(max_t^' f_(t,d))$
+      prevents bias toward longer documents
+  - log-scaled: $t f(t, d) = 1 +  log(f_(t,d))$
+      diminishing returns for high counts
+])
+
+#greenbox("Term Frequency - Inverse Document Frequency", [
+  High if frequent in a document but rare across the dataset
+
+  $w_(t,d) = t f (t,d) times log(N/(d f(t)))$
+])
+
+#pinkbox("Vector Space Model", [
+  - each dimension correspondes to a term in the vocabulary
+  - similarity between a query and a document is measured e.g. cosine similarity.
+
+  - relevance feedback is a process of adjusting the query vector so that it points closer 
+    to relevant documents and further from non-relevant ones
+
+  - pros:
+    - simple
+    - good performance
+    - partial matching
+    - term wighting
+  - cons:
+    - high dimensionality
+    - no term ordering
+    - assumes term independence
+    - no handling synonyms
+])
+
+#bluebox("Rocchio algorithm", [
+  - relevance feedback
+  - improve search queries bsaed on user feedback
+  + ask the user which documents are relevant and which are not relevant, 
+    move the query towards the centroid of relevant docs, move away from center of 
+    non-relevant docs, keep part of the origional quet so that it doesn t drift too far
+
+  New Query = Original Query + Boost from Relevant Docs – Penalty from Non-Relevant Docs.
+
+  - Issues:
+    - easier to know what is relevant than what is not relevant
+    - non relevant documents are not in a group, they are dispersed
+
+  - *Variants*:
+    - *positive-only feedback*
+    - *IDE dev-hi*
+      (use only the highest ranked non-relevant document, dec-hi = decrement-highest weight)
+])
+
+#greenbox("Probabilistice Model of Relevance/Binary Independence Model", [
+  - attempts to fix Rocchio by not assuming that relevance 
+    can be represented by a single controid in vector space
+
+  - Binary representation (word is in or not in document, not counted)
+  - Query term independence (terms in queries are independent of each other)
+  - the probability of one term being in a document has no effect on the probability of another
+    term being in the same document
+
+  *Retrieval Status Value (RSV)*:
+  probability of a document being relevant / probability of it not being relevant
+
+  calculated using Bayes' theorem
+
+  $
+    R S V(D, Q) = frac( product_(i = 1)^n P(d_i | R, Q) ,product_(i = 1)^n P(d_i | not R, Q) )
+  $
+])
+
+#yellowbox("Query Expansion Methods", [
+  addresses synonymy and vocabulary mismatch
+
+  + user query
+  + term suggestion
+  + query modification
+  + re-execution of query
+  + result evaluation
+])
+
