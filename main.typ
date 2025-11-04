@@ -143,9 +143,14 @@ external sorting algorithms because seek time on disks are too slow
     $O(log(T/n))$ instead of $O(1)$
 ])
 
-// #greenbox("heap's Law")
+#greenbox("heap's Law for vocabulary size", [
+  $ M = k T^b $
+  - vocabulary size $M$
+  - number of tokens $T$
+  - $k, b$ parameters?
+])
 
-#pinkbox("Zipf's Law", [
+#pinkbox("Zipf's Law on frequency of distinct terms in a collection", [
   Approximates the Frequency of the ith most used term
   $
     c_(f i) = k/i
@@ -153,6 +158,21 @@ external sorting algorithms because seek time on disks are too slow
   - $k$ is the normalising constant
   - most frequent term occurs $c_(f 1)$ times
   - secound most frequent term occurs $c_(f 1/2)$ times
+])
+
+#purplebox("Dictionary Compression", [
+  *Dictionary as a string compression*
+  - store dictionary as a long string of characters,
+  - store the location of the word in the string, hope to save 60% space
+  *blocking* store ptrs to every kth term string, and store length 
+    in front of words
+  *Front Coding*: share prefix across words in dictionary
+])
+
+#pinkbox("Postings Compression", [
+  *gap encoding:* store differences in termIDs instead of full termID
+  *variable length encoding:* 
+  *gamma code:* fuck if I know, not even used in practice
 ])
 
 == Lecture 3
