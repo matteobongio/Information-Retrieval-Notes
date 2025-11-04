@@ -20,12 +20,12 @@
 
   Dictionary terms are sorted alphabetically
 
-  - merge: `AND` $O(n + m)$
-
-  - Big and sparse, grows fast
+  - merge: $O(n + m)$
+  - optimization: start wiht smallist lists (this is why we keep track of document frequency)
+  // - Big and sparse, grows fast
 ])
 
-#yellowbox("Initial stages of text processing", [
+#greenbox("Initial stages of text processing", [
   - Tokenization
   - Normalization (U.S.A. == USA)
   - Stemming (authorization $->$ authorize)
@@ -34,23 +34,26 @@
 
 #yellowbox("Phrase Queries", [
   - a group of words acting like a grammatical unit
-])
+  *Solutions for inverted indexes:*
+  #pinkbox("Bi-Word Indexes", [
+    index every consecutive pair of terms in the document as a phrase
 
-#pinkbox("Bi-Word indexes", [
-  index every consecutive pair of terms in the document as a phrase
-
-  - issues:
+    *issues:*
     - false positives
     - index blowup
     - impossible for more than bi words, way too big
+  ])
+
+  #pinkbox("Positional Indexes", [
+    store document and position for each word
+  ])
 ])
 
 #pinkbox("Posting Lists", [
-  - with positional indexes
-    - store for each term the positions in which tokens of it appear
   - without positional indexes
-    - store just the documents that contain them
+  - store just the documents that contain them
 ])
+
 
 == Lecture 2
 
@@ -59,7 +62,7 @@ datasets are too big for memory, we need to use disk
 external sorting algorithms because seek time on disks are too slow
 
 #pinkbox("Blocked Sort Based Indexing (BSBI)", [
-  + Divide the data set
+  + Divide the data set into equal blocks
   + build a mapping term $->$ termID
   + Fetch a block onto memory
   + Sort it based on termIf $->$ docId, then sort inside each term's posting list by docID
@@ -67,9 +70,25 @@ external sorting algorithms because seek time on disks are too slow
   + when done with all blocks, fetch $n$ rows from each block and merge positings list
     from lowest to highest termID
   + after dealing with each termID store it on disk and fetch next $m$ rows
+  #redbox("BSBI Merge Blocks", [
+    - open all blocks simultaneaously with small read buffers
+    - for each 
+      - select lowest termID not yet processed (using priority queue min heap)
+      - read and merge al posting lists for this termID
+      - write merged list to disk
+  ])
+  *Pros:*
+  - scales well
+  - process large collections in disk
+  *Cons:*
+  - need global term $->$ termID map (might not fit in memory)
 ])
 
 #pinkbox("Single Pass In-Memory Indexing", [
+  *Ideas:*
+  - Generate seperate dictionaries for each block (no need for global term $->$ termID)
+  - don't sort
+
   + Block Construction
     - read one doc at a time
     - tokenize into terms
@@ -92,11 +111,39 @@ external sorting algorithms because seek time on disks are too slow
   - Master machine
     - fault tolerant,
     - break construction of inverted index into parallel tasks and assign machines to them
+      - Parsers: reads one document at a time and outputs (term, doc) pairs, splits them into partitions
+      - Inverters: collects all (term, doc) pairs for one term partition \
+        sorts and writes posting list
     - transform term-partitioned index into document-partitioned index
       - *term-partitioned*: one maching handles a range of terms
       - *document-partitioned*: one machine handles a range od documents, each machine has its own
         inverted index
 ])
+
+#purplebox("Dynamic Indexing", [
+  - Maintain Big index
+  - new docs go to auxiliary index
+  - search both then merge
+  - bit vector to keep track of deletion
+  - periodically re-index and merge both indexes
+
+  *Issues:*
+  - poor performance merge
+])
+
+
+#bluebox("Logarithmic Merge", [
+  - maintain a series of indexes, each twice as large as the previous one
+  - keep smallest in memory
+  - when it gets full, write it to the next index on disk, if that s full, write to the next index
+
+  - Index construction:
+    $O(T log(T/n))$ instead of $O(t^2/n)$
+  - Query processing
+    $O(log(T/n))$ instead of $O(1)$
+])
+
+// #greenbox("heap's Law")
 
 #pinkbox("Zipf's Law", [
   Approximates the Frequency of the ith most used term
